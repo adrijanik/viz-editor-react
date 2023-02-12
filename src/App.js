@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { BarChart }  from './dataviz';
-import { Paper, Button, Grid, AppBar, Toolbar, Typography } from '@mui/material';
+import { Paper, Button, Grid, AppBar, Toolbar, Typography, Container } from '@mui/material';
 import Editor from 'react-simple-code-editor';
 import { highlight, languages } from 'prismjs/components/prism-core';
 import 'prismjs/components/prism-clike';
@@ -17,15 +17,21 @@ const sampleData = [
 
 const App = () => {
   const chartRef = useRef(null);
+  const [data, setData] = React.useState(` [
+  { letter: 'A', frequency: 0.2847 },
+  { letter: 'B', frequency: 0.1492 },
+  { letter: 'C', frequency: 0.2782 },
+  // ...
+]`);
 
   const handleButtonClick = () => {
     // execute the D3 code and set the result
-     BarChart(sampleData, code);
+     BarChart(data, code);
    
   };
 
   useEffect(() => {
-    BarChart(sampleData, code);
+    BarChart(data, code);
   }, []);
 
   const [code, setCode] = React.useState(
@@ -103,6 +109,19 @@ const App = () => {
            <Button variant="contained" color="primary" onClick={handleButtonClick} style={{ marginTop: 16 }}>
             Execute D3 code
           </Button>
+  <Paper style={{ padding: 16, maxHeight: '200px', minHeight: '200px', overflow:'scroll' }}>
+    <Editor
+      value={data}
+      onValueChange={data => setData(data)}
+      highlight={data => highlight(data, languages.js)}
+      padding={20}
+      style={{
+        fontFamily: '"Fira code", "Fira Mono", monospace',
+        fontSize: 12,
+      }}
+    />
+
+        </Paper>
 
             </Grid>
             <Grid item sx={{
@@ -112,7 +131,6 @@ const App = () => {
 <svg id="chart" ref={chartRef} />
           </Grid>
           </Grid>
-
           <footer sx={{width: '100%'}}>
             <Typography variant="body2" color="textSecondary" align="center">
               My React + D3 App Template
