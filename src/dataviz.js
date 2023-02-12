@@ -1,13 +1,14 @@
 import * as d3 from 'd3';
 
-export const BarChart = (data) => {
+export const BarChart = (data, result) => {
+  console.log(result);
   const svg = d3.select('svg') .attr("width", 600)
   .attr("height", 400);
   const margin = { top: 20, right: 20, bottom: 30, left: 40 };
   const width = +svg.attr('width') - margin.left - margin.right;
   const height = +svg.attr('height') - margin.top - margin.bottom;
   const g = svg.append('g')
-    .attr('transform', `translate(${margin.left},${margin.top})`);
+    .attr('transform',  `translate(${margin.left},${margin.top})`);
 
   const x = d3.scaleBand()
     .rangeRound([0, width])
@@ -41,5 +42,6 @@ export const BarChart = (data) => {
     .attr('y', d => y(d.frequency))
     .attr('width', x.bandwidth())
     .attr('height', d => height - y(d.frequency));
+
 };
 

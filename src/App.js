@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { BarChart }  from './dataviz';
-import { TextareaAutosize, Paper, Button, Grid, AppBar, Toolbar, Typography } from '@mui/material';
-import { createEditor } from 'slate'
+import { Paper, Button, Grid, AppBar, Toolbar, Typography } from '@mui/material';
 import Editor from 'react-simple-code-editor';
 import { highlight, languages } from 'prismjs/components/prism-core';
 import 'prismjs/components/prism-clike';
@@ -16,35 +15,19 @@ const sampleData = [
   // ...
 ];
 
-
-const initialValue = [ {
-    type: 'paragraph',
-    children: [{ text: 'A line of text in a paragraph.' }],
-  },
-]
-
-
 const App = () => {
-  const [d3Code, setD3Code] = useState('');
-  const [result, setResult] = useState(null);
-
   const chartRef = useRef(null);
-  const handleCodeChange = (event) => {
-    setD3Code(event.target.value);
-  };
 
   const handleButtonClick = () => {
     // execute the D3 code and set the result
-    setResult(d3Code);
+     BarChart(sampleData, code);
+   
   };
 
   useEffect(() => {
-    BarChart(sampleData);
+    BarChart(sampleData, code);
   }, []);
 
-  useEffect(() => {
-    // update the result when the D3 code changes
-  }, [d3Code]);
   const [code, setCode] = React.useState(
     `function add(a, b) {\n  return a + b;\n}`
   );
@@ -85,7 +68,7 @@ const App = () => {
     height: '100%',
     width: '50%',
   }} >
-{result || <svg id="chart" ref={chartRef} />}
+<svg id="chart" ref={chartRef} />
           </Grid>
           </Grid>
 
